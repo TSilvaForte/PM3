@@ -5,36 +5,34 @@ import ICredential from "../interfaces/ICredential";
 import { validateCredential } from "../services/credentialService";
 import ICredentialDto from "../dtos/ICredentialDto";
 import IUserDto from "../dtos/IUserDto";
+import { User } from "../entities/User";
 
 export const getUsers = async(req:Request, res:Response) => {
     try {
-        const users:IUser[] = await getUsersService();
+        const users:User[] = await getUsersService();
         res.status(200).json(users);
-    } catch (error) {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({message: "Error loading users", error: errorMessage});
+    } catch (error:any) {
+        res.status(400).json({error:error.message});
     }    
 };
 
 export const getUserById = async(req:Request, res:Response) => {
     try {
         const {id} = req.params;
-        const user:IUser = await getUserByIdService (Number(id));
+        const user:User | null = await getUserByIdService (Number(id));
         res.status(200).json(user);
-    } catch (error) {
-        const errorMessage = (error as Error).message;
-        res.status(404).json({ message: "User not found", error: errorMessage });
+    } catch (error:any) {
+        res.status(400).json({error:error.message});
     }
 };
 
 export const createUser = async(req:Request, res:Response) => {
     try {
         const { name, email, birthdate, nDni, username, password }: IUserDto = req.body;
-        const newUser:IUser = await createUserService ({name, email, birthdate, nDni, username, password});
+        const newUser:User = await createUserService ({name, email, birthdate, nDni, username, password});
         res.status(201).json(newUser);
-    } catch (error) {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({ message: "Error creating user", error: errorMessage });
+    } catch (error:any) {
+        res.status(400).json({error:error.message});
     }
 };
 
@@ -46,11 +44,7 @@ export const loginUser = async(req:Request, res:Response) => {
         }
         const user = await validateCredential ({username, password});
         res.status(200).json({ message: "Login successful", user });
-    } catch (error) {
-        const errorMessage = (error as Error).message;
-        if (errorMessage === "Login failed. Wrong credentials" || errorMessage === "User not registered") {
-            return res.status(401).json({ message: errorMessage });
-        }
-        res.status(500).json({ message: "Error validating credentials", error: errorMessage });
+    } catch (error:any) {
+        res.status(400).json({error:error.message});
     }
 };

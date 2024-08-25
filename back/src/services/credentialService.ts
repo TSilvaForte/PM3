@@ -1,26 +1,19 @@
 import ICredentialDto from "../dtos/ICredentialDto";
 import ICredential from "../interfaces/ICredential";
+import { Credential } from "../entities/Credential";
+import { credentialModel } from "../config/data-source";
 
-const credentials:ICredential[] = [];
-let credentialId:number = 1;
+const credentials:Credential[] = [];
 
-export const createCredential = async(credentialDTO:ICredentialDto):Promise<number> => {
-    const newCredential: ICredential = {
-        id: credentialId++,
-        username: credentialDTO.username,
-        password: credentialDTO.password
-    }
-
-    credentials.push(newCredential);
-    return newCredential.id;
+export const createCredential = async(credentialData:ICredentialDto):Promise<Credential> => {
+    const newCredential: Credential = await credentialModel.create(credentialData);
+    await credentialModel.save(newCredential);
+    return newCredential;
 };
 
 export const validateCredential = async (credentialDTO: ICredentialDto):Promise<number> => {
     const { username, password } = credentialDTO;
-    const foundCredential: ICredential | undefined = credentials.find(
-        (credential) => credential.username === username
-    );
-
+    const foundCredential: Credential | null = await credentialModel.findOneBy({username});
     if (!foundCredential) {
         throw new Error("User not registered");
     }

@@ -1,6 +1,13 @@
 import server from "./server";
 import {PORT} from "./config/envs";
+import "reflect-metadata";
 
-server.listen(PORT, () => {
-    console.log(`Server listening on PORT ${PORT}`);
-})
+import { AppDataSource } from "./config/data-source";
+
+AppDataSource.initialize()
+    .then(res => {
+        console.log("Connected to DB");
+        server.listen(PORT, () => {
+            console.log(`Server listening on PORT ${PORT}`);
+        });
+    });
