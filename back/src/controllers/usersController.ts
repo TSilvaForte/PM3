@@ -1,6 +1,6 @@
 import {Request, Response} from "express"; 
 import IUser from "../interfaces/IUser";
-import { createUserService, getUserByIdService, getUsersService } from "../services/usersService";
+import { createUserService, findUserByCredentialId, getUserByIdService, getUsersService } from "../services/usersService";
 import ICredential from "../interfaces/ICredential";
 import { validateCredential } from "../services/credentialService";
 import ICredentialDto from "../dtos/ICredentialDto";
@@ -12,7 +12,7 @@ export const getUsers = async(req:Request, res:Response) => {
         const users:User[] = await getUsersService();
         res.status(200).json(users);
     } catch (error:any) {
-        res.status(400).json({error:error.message});
+        res.status(404).json({error:error.message});
     }    
 };
 
@@ -22,7 +22,7 @@ export const getUserById = async(req:Request, res:Response) => {
         const user:User | null = await getUserByIdService (Number(id));
         res.status(200).json(user);
     } catch (error:any) {
-        res.status(400).json({error:error.message});
+        res.status(404).json({error:error.message});
     }
 };
 
@@ -42,9 +42,13 @@ export const loginUser = async(req:Request, res:Response) => {
         if (!username || !password) {
             return res.status(400).json({ message: "Missing username or password" });
         }
-        const user = await validateCredential ({username, password});
-        res.status(200).json({ message: "Login successful", user });
-    } catch (error:any) {
-        res.status(400).json({error:error.message});
+        const credentialId = await validateCredential ({username, password});
+        const userFound = await findUserByCredentialId(credentialId);
+        if (!userFound) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "Login successful", user: userFound });
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
     }
 };

@@ -1,0 +1,77 @@
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/pikaso_embed.jpeg');
+    background-size: cover;
+    background-position: center;
+    transform: scaleY(-1); 
+    z-index: -1; 
+}
+
+.polygon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60%; 
+    height: 70%; 
+    background-color: rgba(152, 109, 58, 0.62); 
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 25% 0); 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-left: 10%;
+    box-sizing: border-box;
+}
+
+.title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 3rem; 
+    color: transparent;
+    -webkit-text-stroke: 1.5px white;
+}
+
+.subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 2.2rem; 
+    color: white;
+}
+
+.description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    width: 60%;
+    line-height: 1.5;
+}
+
+.scheduleButton {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: white;
+    background-color: #000; 
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.scheduleButton:hover {
+    background-color: gray;
+}
