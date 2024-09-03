@@ -1,0 +1,44 @@
+.card {
+    background-color: rgba(0, 0, 0, 0.7); 
+    border-radius: 10px; 
+    box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.5); 
+    padding: 20px; 
+    margin: 1.5rem; 
+    width: 100%; 
+    max-width: 20rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1rem;
+}
+
+.card h1 {
+    font-size: 1.2rem; 
+    margin: 0; 
+    color: white; 
+    font-family: 'Montserrat', sans-serif; 
+    font-style: italic; 
+    font-weight: bold; 
+    text-align: center; 
+}
+
+.card p {
+    margin: 0.5rem 0; 
+    color: white; 
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 1rem; 
+}
+
+.statusButton {
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 1rem; 
+    color: white; 
+    background-color: #000; 
+    border: none; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.statusButton:hover {
+    background-color: gray; 
+}

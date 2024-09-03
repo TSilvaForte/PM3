@@ -1,0 +1,23 @@
+.footerContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 55vw; 
+    height: 3vh; 
+    background-color: rgba(0, 0, 0, 0.6);
+    clip-path: polygon(0 0, 50% 0, 60% 100%, 0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 1rem;
+    box-sizing: border-box;
+    z-index: 1; 
+}
+
+.footerContainer p {
+    margin: 0;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    text-align: center;
+}

@@ -19,7 +19,7 @@
     padding: 0;
     display: flex;
     flex-direction: row; 
-    gap: 70px; 
+    gap: 3.2rem; 
 }
 
 .navItems li a {
@@ -27,6 +27,7 @@
     text-decoration: none; 
     font-family: 'Montserrat', sans-serif; 
     font-size: 1.2rem; 
+    transition: color 0.3s; 
 }
 
 .navItems li a:hover {
