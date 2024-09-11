@@ -1,23 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import myAppointments from "../helpers/myAppointments";
 import Appointment from "../components/Appointment";
 import styles from "./MyAppointments.module.css";
 import NavBar from "../components/NavBar"; 
 import Footer from "../components/Footer";
+import axios from "axios";
 
 const MyAppointments = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0); 
     const itemsPerPage = 3;
+
+    const[userAppointments, setUserAppointments] = useState([]);
+    
+    const fetchData = async () => {
+        try {
+            const response = await axios.get ("http://localhost:3000/appointments");
+            setUserAppointments(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => Math.max(prevIndex - itemsPerPage, 0));
     };
 
     const handleNext = () => {
-        setCurrentIndex(prevIndex => Math.min(prevIndex + itemsPerPage, myAppointments.length - itemsPerPage));
+        setCurrentIndex(prevIndex => Math.min(prevIndex + itemsPerPage, userAppointments.length - itemsPerPage));
     };
 
-    const visibleAppointments = myAppointments.slice(currentIndex, currentIndex + itemsPerPage);
+    const visibleAppointments = userAppointments.slice(currentIndex, currentIndex + itemsPerPage);
+
+    useEffect(() => {
+        fetchData()
+    }, []);   
 
     return (
         <div className={styles.container}>
@@ -48,7 +64,7 @@ const MyAppointments = () => {
                 <button className={styles.navButton} onClick={handlePrevious} disabled={currentIndex === 0}>
                     Previous
                 </button>
-                <button className={styles.navButton} onClick={handleNext} disabled={currentIndex + itemsPerPage >= myAppointments.length}>
+                <button className={styles.navButton} onClick={handleNext} disabled={currentIndex + itemsPerPage >= userAppointments.length}>
                     Next
                 </button>
             </div>
