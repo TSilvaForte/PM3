@@ -1,0 +1,111 @@
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/pikaso_embed.jpeg');
+    background-size: cover;
+    background-position: center;
+    transform: scaleY(-1); 
+    z-index: -1; 
+}
+
+.polygon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60%; 
+    height: 70%; 
+    background-color: rgba(152, 109, 58, 0.62); 
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 25% 0); 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-left: 12%;
+    box-sizing: border-box;
+}
+
+.title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 2.5rem; 
+    color: transparent;
+    -webkit-text-stroke: 1.5px white;
+}
+
+.subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 2rem; 
+    color: white;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.labels {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: white;
+    text-align: left;
+    width: 100%;
+    line-height: 1;
+}
+
+.inputGroup {
+    display: flex;
+    align-items: center; /* Alinea verticalmente el label y el input */
+    margin-bottom: 5px; /* Incrementa el espacio entre los grupos de input */
+    width: 100%; /* Mantén el ancho del grupo de input */
+}
+
+label {
+    flex-basis: 25%; /* El label ocupará el 30% del espacio disponible */
+    margin-right: 10px; /* Espacio adicional entre el label y el input */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: white;
+}
+
+input {
+    flex-basis: 50%; /* El input ocupará el 70% del espacio disponible */
+    padding: 0.3rem;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%; /* Asegura que el input use el espacio asignado */
+    margin-right: 0.3rem;
+}
+
+.registerButton {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: white;
+    background-color: #000; 
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 15rem;
+    margin-top: 1rem;
+}
+
+.registerButton:hover {
+    background-color: gray;
+}
+
+.registerButton:disabled {
+    cursor: not-allowed; 
+    opacity: 0.7; 
+  }

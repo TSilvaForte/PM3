@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import myAppointments from "../helpers/myAppointments";
 import Appointment from "../components/Appointment";
 import styles from "./MyAppointments.module.css";
 import NavBar from "../components/NavBar"; 
@@ -10,11 +9,11 @@ const MyAppointments = () => {
     const [currentIndex, setCurrentIndex] = useState(0); 
     const itemsPerPage = 3;
 
-    const[userAppointments, setUserAppointments] = useState([]);
-    
+    const [userAppointments, setUserAppointments] = useState([]);
+
     const fetchData = async () => {
         try {
-            const response = await axios.get ("http://localhost:3000/appointments");
+            const response = await axios.get("http://localhost:3000/appointments");
             setUserAppointments(response.data);
         } catch (error) {
             console.error(error);
@@ -26,18 +25,20 @@ const MyAppointments = () => {
     };
 
     const handleNext = () => {
-        setCurrentIndex(prevIndex => Math.min(prevIndex + itemsPerPage, userAppointments.length - itemsPerPage));
+        setCurrentIndex(prevIndex => 
+            Math.min(prevIndex + itemsPerPage, userAppointments.length - (userAppointments.length % itemsPerPage))
+        );
     };
 
     const visibleAppointments = userAppointments.slice(currentIndex, currentIndex + itemsPerPage);
 
     useEffect(() => {
-        fetchData()
-    }, []);   
+        fetchData();
+    }, []);
 
     return (
         <div className={styles.container}>
-            <NavBar/>
+            <NavBar />
 
             <div className={styles.polygon}>
                 <h1 className={styles.title}>AGENDA</h1>
@@ -61,16 +62,23 @@ const MyAppointments = () => {
             </div>
 
             <div className={styles.navigationButtons}>
-                <button className={styles.navButton} onClick={handlePrevious} disabled={currentIndex === 0}>
+                <button 
+                    className={styles.navButton} 
+                    onClick={handlePrevious} 
+                    disabled={currentIndex === 0}
+                >
                     Previous
                 </button>
-                <button className={styles.navButton} onClick={handleNext} disabled={currentIndex + itemsPerPage >= userAppointments.length}>
+                <button 
+                    className={styles.navButton} 
+                    onClick={handleNext} 
+                    disabled={currentIndex + itemsPerPage >= userAppointments.length}
+                >
                     Next
                 </button>
             </div>
 
-            <Footer/>
-
+            <Footer />
         </div>
     );
 };
