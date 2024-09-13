@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import NavBar from "../components/NavBar";
 import styles from "./Login.module.css";
 import axios from 'axios';
 import Swal from "sweetalert2";
@@ -57,7 +56,6 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
-      <NavBar />
       <div className={styles.polygon}>
         <h1 className={styles.title}>LOGIN</h1>
       </div>

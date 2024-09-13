@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { validateRegister } from "../helpers/validations";
 import axios from "axios";
 import styles from "./Register.module.css";
-import NavBar from "../components/NavBar";
 import Swal from "sweetalert2";
 
 const Register = () => {
@@ -76,7 +75,6 @@ const Register = () => {
 
   return (
     <div className={styles.container}>
-      <NavBar />
       <div className={styles.polygon}>
         <h2 className={styles.subtitle}>
           New at <span className={styles.title}> Flotarium </span>? <br/> Register and start scheduling 📅

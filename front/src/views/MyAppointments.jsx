@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Appointment from "../components/Appointment";
 import styles from "./MyAppointments.module.css";
-import NavBar from "../components/NavBar"; 
 import Footer from "../components/Footer";
 import axios from "axios";
 
@@ -38,8 +37,6 @@ const MyAppointments = () => {
 
     return (
         <div className={styles.container}>
-            <NavBar />
-
             <div className={styles.polygon}>
                 <h1 className={styles.title}>AGENDA</h1>
             </div>
@@ -77,8 +74,6 @@ const MyAppointments = () => {
                     Next
                 </button>
             </div>
-
-            <Footer />
         </div>
     );
 };
