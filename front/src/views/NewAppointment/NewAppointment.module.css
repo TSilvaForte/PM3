@@ -1,0 +1,119 @@
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; 
+  }
+  
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/sand-background.jpg');
+    background-size: cover;
+    background-position: center;
+    transform: scaleY(-1); 
+    z-index: -1; 
+  }
+  
+  .polygon {
+    position: absolute; 
+    top: 10%;
+    left: 0; 
+    margin: 0; 
+    padding: 0; 
+    width: 80%; 
+    height: 15%; 
+    background-color: rgba(152, 109, 58, 0.62); 
+    clip-path: polygon(0 0, 50% 0, 60% 100%, 0 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding-left: 5%; 
+    box-sizing: border-box;
+    z-index: 1; 
+  }
+  
+  .title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 2.5rem; 
+    color: white;
+    z-index: 1; 
+  }
+  
+  .formContainer {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7); 
+    border-radius: 10px; 
+    box-shadow: 8px 8px 8px 8px rgba(0, 0, 0, 0.5); 
+    padding: 20px; 
+    margin: 1.5rem; 
+    width: 100%; 
+    max-width: 30rem; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    top:30%
+  }
+  
+  .labelAppointment {
+    font-size: 1.2rem;  
+    color: white; 
+    font-family: 'Montserrat', sans-serif; 
+    text-align: center; 
+    margin-bottom: 0.5rem; 
+  }
+  
+  .appointmentInput {
+    padding: 8px; 
+    border: none;
+    border-radius: 5px;
+    width: 100%; 
+    max-width: 18rem; 
+    font-size: 1rem;
+    margin-top: 0.1rem; 
+    font-family: 'Montserrat', sans-serif; 
+    margin-bottom: 1.5rem;
+  }
+  
+  .timeContainer {
+    display: flex;
+    gap: 10px; 
+    width: 100%; 
+    max-width: 18rem; 
+  }
+  
+  .timeField {
+    flex: 1; 
+  }
+  
+  .scheduleButton {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: white;
+    background-color: #000; 
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .scheduleButton:hover {
+    background-color: gray;
+  }
+  
+  .scheduleButton:disabled {
+    cursor: not-allowed; 
+    opacity: 0.7; 
+    background-color: #333;
+  }
+  

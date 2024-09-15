@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import Appointment from "../components/Appointment";
+import Appointment from "../../components/Appointment";
 import styles from "./MyAppointments.module.css";
-import Footer from "../components/Footer";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const MyAppointments = () => {
-    const [currentIndex, setCurrentIndex] = useState(0); 
+    const [currentIndex, setCurrentIndex] = useState(0);
     const itemsPerPage = 3;
-
     const [userAppointments, setUserAppointments] = useState([]);
 
     const fetchData = async () => {
@@ -19,12 +18,20 @@ const MyAppointments = () => {
         }
     };
 
+    const handleStatusChange = (id, newStatus) => {
+        setUserAppointments(prevAppointments =>
+            prevAppointments.map(app =>
+                app.id === id ? { ...app, status: newStatus } : app
+            )
+        );
+    };
+
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => Math.max(prevIndex - itemsPerPage, 0));
     };
 
     const handleNext = () => {
-        setCurrentIndex(prevIndex => 
+        setCurrentIndex(prevIndex =>
             Math.min(prevIndex + itemsPerPage, userAppointments.length - (userAppointments.length % itemsPerPage))
         );
     };
@@ -35,10 +42,19 @@ const MyAppointments = () => {
         fetchData();
     }, []);
 
+    const navigate = useNavigate();
+    const handleNewAppointmentClick = () => {
+        navigate('/appointments/newappointment');
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.polygon}>
                 <h1 className={styles.title}>AGENDA</h1>
+            </div>
+
+            <div>
+                <button className={styles.appointmentButton} onClick={handleNewAppointmentClick}>New Appointment</button>
             </div>
 
             <div className={styles.appointmentsContainer}>
@@ -51,6 +67,7 @@ const MyAppointments = () => {
                             time={time}
                             status={status}
                             description={description}
+                            onStatusChange={handleStatusChange}
                         />
                     ))
                 ) : (
@@ -59,16 +76,16 @@ const MyAppointments = () => {
             </div>
 
             <div className={styles.navigationButtons}>
-                <button 
-                    className={styles.navButton} 
-                    onClick={handlePrevious} 
+                <button
+                    className={styles.navButton}
+                    onClick={handlePrevious}
                     disabled={currentIndex === 0}
                 >
                     Previous
                 </button>
-                <button 
-                    className={styles.navButton} 
-                    onClick={handleNext} 
+                <button
+                    className={styles.navButton}
+                    onClick={handleNext}
                     disabled={currentIndex + itemsPerPage >= userAppointments.length}
                 >
                     Next

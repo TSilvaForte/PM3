@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { validateRegister } from "../helpers/validations";
+import { validateRegister } from "../../helpers/validations.js";
 import axios from "axios";
 import styles from "./Register.module.css";
 import Swal from "sweetalert2";
@@ -124,7 +124,6 @@ const Register = () => {
             </div>
           ))}
 
-          {/* Botón deshabilitado si el formulario no es válido */}
           <button className={styles.registerButton} type="submit" disabled={!isValid || isSubmitting}>
             {isSubmitting ? "Registering..." : "Register"}
           </button>

@@ -63,9 +63,9 @@
     gap: 1rem;
     align-items: center;
     
-    left: 10%; /* Ajustar para que quede en el lado izquierdo de la pantalla */
-    top: 50%; /* Centrar verticalmente */
-    transform: translateY(-40%); /* Centrar verticalmente */
+    left: 10%; 
+    top: 50%; 
+    transform: translateY(-40%); 
 }
 
 .labelLogin {
@@ -82,7 +82,7 @@
     width: 100%; 
     max-width: 18rem; 
     font-size: 1rem;
-    margin-top: 0.8rem; /* Separación del label */
+    margin-top: 0.8rem;
 }
 
 
@@ -117,8 +117,8 @@
     background-color: rgba(255, 255, 255, 0.6);
     box-sizing: border-box;
     left:55%;
-    top: 50%; /* Centrar verticalmente */
-    transform: translateY(-30%); /* Centrar verticalmente */
+    top: 50%; 
+    transform: translateY(-30%); 
     border-radius: 5px;
   }
   
@@ -169,6 +169,7 @@
   }
 
   .loginButton:disabled {
-    cursor: not-allowed; /* Cambia el cursor a la señal de prohibido */
-    opacity: 0.7; /* Añade un poco de transparencia para indicar que está deshabilitado */
+    cursor: not-allowed; 
+    opacity: 0.7; 
+    background-color: #333;
   }

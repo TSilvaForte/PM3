@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import styles from "./Login.module.css";
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const initialValues = {
@@ -19,7 +20,8 @@ const Login = () => {
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     postData(values).finally(() => {
       setSubmitting(false);
-      resetForm(); // Restablece el formulario después de enviar
+      resetForm(); 
+      navigate("/appointments");
     });
   };
 
@@ -53,6 +55,8 @@ const Login = () => {
       });
     }
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>

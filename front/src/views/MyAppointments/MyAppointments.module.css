@@ -88,6 +88,8 @@
 
 .navButton:disabled {
     cursor: not-allowed;
+    opacity: 0.7;
+    background-color: #333;
 }
 
 .noAppointments {
@@ -95,4 +97,19 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 2rem;
     text-align: center;
+}
+
+.appointmentButton {
+    position:absolute;
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 1rem; 
+    width: 15rem;
+    color: white; 
+    background-color: #000; 
+    border: none; 
+    padding: 1rem;
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    left: 70%;
+    top: 15%
 }

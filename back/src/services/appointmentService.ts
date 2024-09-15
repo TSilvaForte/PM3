@@ -34,7 +34,7 @@ export const createAppointmentService = async(appointmentData:IAppointmentDto): 
 export const cancelAppointmentByIdService = async (id:number): Promise<Appointment> => {
     const appointment: Appointment | null = await appointmentModel.findOneBy({id});
     if (!appointment) throw new Error ("Appointment not found");
-    appointment.status = "Cancelled";
+    appointment.status = "cancelled";
     await appointmentModel.save(appointment)
     return appointment;
 };
