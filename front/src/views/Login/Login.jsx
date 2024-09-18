@@ -22,11 +22,16 @@ const Login = () => {
   });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    postData(values).finally(() => {
-      setSubmitting(false);
-      resetForm(); 
-      navigate("/appointments");
-    });
+    postData(values)
+      .then((responseStatus) => {
+        if (responseStatus === 200) {
+          resetForm(); 
+          navigate("/appointments"); 
+        }
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   const postData = async (values) => {
@@ -42,6 +47,7 @@ const Login = () => {
           text: "Now you are logged in",
           icon: "success",
         });
+        return 200;
       } else {
         Swal.fire({
           icon: "error",
@@ -49,6 +55,7 @@ const Login = () => {
           text: "Something went wrong!",
           footer: '<a href="#">Login failed. Please try again</a>',
         });
+        return response.status;
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -58,6 +65,7 @@ const Login = () => {
         text: "Something went wrong!",
         footer: '<a href="#">Login failed. Please try again</a>',
       });
+      return 500;
     }
   };
 

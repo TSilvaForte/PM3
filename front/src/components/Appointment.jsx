@@ -42,7 +42,7 @@ const Appointment = ({ id, date, time, status, description, onStatusChange }) =>
 
         Swal.fire({
             title: 'Are you sure?',
-            text: `You are about to cancel this appointment for ${description} on ${new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })} at ${time}. Confirm / Cancel.`,
+            text: `You are about to cancel this appointment for ${description} on ${new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })} at ${time} hs. Confirm / Cancel.`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Confirm',
@@ -58,9 +58,9 @@ const Appointment = ({ id, date, time, status, description, onStatusChange }) =>
     return (
         <div className={styles.card}>
             <h1>Appointment {id} {normalizedStatus.charAt(0).toUpperCase() + normalizedStatus.slice(1)}</h1>
-            <p>{new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}</p>
-            <p>{time}</p>
-            <p>{description.charAt(0).toUpperCase() + description.slice(1)}</p>
+            <p>Date: {new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}</p>
+            <p>Time: {time} hs.</p>
+            <p>Service: {description.charAt(0).toUpperCase() + description.slice(1)}</p>
             <button 
                 className={styles.statusButton} 
                 onClick={handleChangeStatus} 

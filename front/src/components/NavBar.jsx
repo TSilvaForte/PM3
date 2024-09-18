@@ -1,16 +1,22 @@
 import { useSelector } from 'react-redux';
 import styles from './NavBar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const NavBar = () => {
   const userData = useSelector((state) => state.userActive);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate("/");
-    setTimeout(() => {
+    Swal.fire({
+      title: "Success!",
+      text: "Now you are logged out",
+      icon: "success",
+      confirmButtonText: "OK"
+    }).then(() => {
+      navigate("/");
       window.location.reload();
-    }, 100);
+    });
   };
 
   return (

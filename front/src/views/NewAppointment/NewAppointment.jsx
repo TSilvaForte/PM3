@@ -24,9 +24,10 @@ const NewAppointment = () => {
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         const { date, hour, minute, description } = values;
+        const formattedMinute = minute.padStart(2, '0');
         const appointmentData = {
           date,
-          time: `${hour}:${minute}`,
+          time: `${hour}:${formattedMinute}`,
           description,
           userId: userData.id
         };
@@ -38,7 +39,7 @@ const NewAppointment = () => {
     
         Swal.fire({
           title: 'Confirm Appointment?',
-          text: `You are about to schedule an appointment for ${description} on ${formattedDate} at ${hour}:${minute} hs.`,
+          text: `You are about to schedule an appointment for ${description} on ${formattedDate} at ${hour}:${formattedMinute} hs.`,
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Confirm',
@@ -123,7 +124,7 @@ const NewAppointment = () => {
               <div className={styles.timeField}>
                 <label className={styles.labelAppointment} htmlFor="minute">Minute</label>
                 <Field className={styles.appointmentInput} as="select" name="minute" id="minute">
-                  {["00", "15", "30", "45"].map(m => (
+                  {["00", 15, 30, 45].map(m => (
                     <option key={m} value={m}>{m}</option>
                   ))}
                 </Field>
