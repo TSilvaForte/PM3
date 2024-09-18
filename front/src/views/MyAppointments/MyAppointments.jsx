@@ -1,29 +1,35 @@
-import { useEffect, useState } from "react";
-import Appointment from "../../components/Appointment";
-import styles from "./MyAppointments.module.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import Appointment from '../../components/Appointment'
+import styles from './MyAppointments.module.css'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUserAppointments } from '../../redux/reducer'
 
 const MyAppointments = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const itemsPerPage = 3;
-    const [userAppointments, setUserAppointments] = useState([]);
+    // const [userAppointments, setUserAppointments] = useState([]);
+
+    const userData = useSelector((state) => state.userActive);
+    const appointments = useSelector((state) => state.userAppointments);
+    const dispatch= useDispatch();
 
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/appointments");
-            setUserAppointments(response.data);
+            const response = await axios.get(`http://localhost:3000/users/${userData.id}`);
+            dispatch(addUserAppointments(response.data.appointments));
         } catch (error) {
             console.error(error);
         }
     };
 
     const handleStatusChange = (id, newStatus) => {
-        setUserAppointments(prevAppointments =>
-            prevAppointments.map(app =>
+        dispatch(addUserAppointments(
+            appointments.map(app =>
                 app.id === id ? { ...app, status: newStatus } : app
             )
-        );
+        ));
     };
 
     const handlePrevious = () => {
@@ -32,15 +38,17 @@ const MyAppointments = () => {
 
     const handleNext = () => {
         setCurrentIndex(prevIndex =>
-            Math.min(prevIndex + itemsPerPage, userAppointments.length - (userAppointments.length % itemsPerPage))
+            Math.min(prevIndex + itemsPerPage, appointments.length - (appointments.length % itemsPerPage))
         );
     };
 
-    const visibleAppointments = userAppointments.slice(currentIndex, currentIndex + itemsPerPage);
+    const visibleAppointments = appointments?.length ? appointments.slice(currentIndex, currentIndex + itemsPerPage) : [];
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (userData.id) {
+            fetchData(); 
+        }
+    }, [userData.id]);
 
     const navigate = useNavigate();
     const handleNewAppointmentClick = () => {
@@ -86,7 +94,7 @@ const MyAppointments = () => {
                 <button
                     className={styles.navButton}
                     onClick={handleNext}
-                    disabled={currentIndex + itemsPerPage >= userAppointments.length}
+                    disabled={currentIndex + itemsPerPage >= appointments.length}
                 >
                     Next
                 </button>

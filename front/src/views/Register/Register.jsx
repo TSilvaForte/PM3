@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { validateRegister } from "../../helpers/validations.js";
-import axios from "axios";
-import styles from "./Register.module.css";
-import Swal from "sweetalert2";
+import React, { useEffect, useState } from 'react'
+import { validateRegister } from '../../helpers/validations.js'
+import axios from 'axios'
+import styles from './Register.module.css'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const initialState = {
@@ -18,11 +19,13 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const validationErrors = validateRegister(form);
     setErrors(validationErrors);
-    setIsValid(Object.keys(validationErrors).length === 0);
+    const allFieldsFilled = Object.values(form).every(value => value.trim() !== '');
+    setIsValid(Object.keys(validationErrors).length === 0 && allFieldsFilled);
   }, [form]);
 
   const handleChange = (event) => {
@@ -43,6 +46,8 @@ const Register = () => {
           icon: "success",
         });
         setForm(initialState);
+        navigate("/login");
+        
       } else {
         Swal.fire({
           icon: "error",

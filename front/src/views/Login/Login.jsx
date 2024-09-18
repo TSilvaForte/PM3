@@ -1,12 +1,16 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import styles from "./Login.module.css";
-import axios from 'axios';
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
+import styles from './Login.module.css'
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import {useNavigate, Link} from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addUser } from '../../redux/reducer'
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const initialValues = {
     username: "",
     password: "",
@@ -32,6 +36,7 @@ const Login = () => {
         password: values.password,
       });
       if (response.status === 200) {
+        dispatch(addUser(response.data.user));
         Swal.fire({
           title: "Success!",
           text: "Now you are logged in",
@@ -80,7 +85,7 @@ const Login = () => {
                 aria-label="username"
                 className={styles.inputField}
               />
-              <ErrorMessage name="username" component="div" />
+              <ErrorMessage className={styles.errorMessage} name="username" component="div" />
             </div>
             <div>
               <label className={styles.labelLogin} htmlFor="password">
@@ -92,7 +97,7 @@ const Login = () => {
                 aria-label="password"
                 className={styles.inputField}
               />
-              <ErrorMessage name="password" component="div" />
+              <ErrorMessage className={styles.errorMessage} name="password" component="div" />
             </div>
             <button
               className={styles.loginButton}
@@ -101,6 +106,7 @@ const Login = () => {
             >
               {isSubmitting ? "Logging in..." : "Login"}
             </button>
+            <p>Don't have an account?  <Link className={styles.register} to="/register">Register now</Link></p>
           </Form>
         )}
       </Formik>

@@ -1,26 +1,34 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Swal from "sweetalert2";
-import styles from "./NewAppointment.module.css";
+import React from 'react'
+import { Formik, Form, Field } from 'formik'
+import * as Yup from 'yup'
+import axios from 'axios'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import Swal from 'sweetalert2'
+import styles from './NewAppointment.module.css'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const validationSchema = Yup.object().shape({
-  date: Yup.date().required('Required'),
+  date: Yup.date()
+    .min(new Date(), 'Date must be in the future')
+    .required('Required'),
   hour: Yup.string().required('Required'),
-  minute: Yup.string().required('Required'),
+  minute: Yup.string(),
   description: Yup.string().required('Required'),
 });
 
 const NewAppointment = () => {
+    const userData = useSelector ((state) => state.userActive);
+    const navigate = useNavigate();
+
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         const { date, hour, minute, description } = values;
         const appointmentData = {
           date,
           time: `${hour}:${minute}`,
           description,
+          userId: userData.id
         };
 
         const formattedDate = new Date(date).toLocaleDateString('en-US', {
@@ -47,6 +55,7 @@ const NewAppointment = () => {
                   icon: "success",
                 });
                 resetForm(); 
+                navigate('/appointments');
               } else {
                 Swal.fire({
                   icon: "error",
@@ -97,6 +106,8 @@ const NewAppointment = () => {
               dateFormat="yyyy-MM-dd"
               name="date"
               id="date"
+              minDate={new Date()}  // Disallow past dates
+              filterDate={(date) => date >= new Date()}
             />
 
             <div className={styles.timeContainer}>
@@ -112,7 +123,7 @@ const NewAppointment = () => {
               <div className={styles.timeField}>
                 <label className={styles.labelAppointment} htmlFor="minute">Minute</label>
                 <Field className={styles.appointmentInput} as="select" name="minute" id="minute">
-                  {[0, 15, 30, 45].map(m => (
+                  {["00", "15", "30", "45"].map(m => (
                     <option key={m} value={m}>{m}</option>
                   ))}
                 </Field>

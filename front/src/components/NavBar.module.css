@@ -19,17 +19,26 @@
     padding: 0;
     display: flex;
     flex-direction: row; 
-    gap: 3.2rem; 
+    gap: 3.7rem; 
 }
 
-.navItems a {
-    color: white; 
-    text-decoration: none; 
-    font-family: 'Montserrat', sans-serif; 
-    font-size: 1.2rem; 
-    transition: color 0.3s; 
+.navItems a,
+.navItems button {
+    color: white;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1.2rem; 
+    display: inline-block;
+    vertical-align: middle; 
 }
 
-.navItems a:hover {
-    color: gray; 
+.navItems a:hover,
+.navItems button:hover {
+    color: gray;
 }
