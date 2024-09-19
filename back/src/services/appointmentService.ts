@@ -18,15 +18,15 @@ export const getAppointmentByIdService = async (id:number): Promise<Appointment>
 
 //Implementar una función que pueda crear un nuevo turno, siempre guardando, además, el ID del usuario que ha creado dicho turno. NO PUEDE HABER UN TURNO SIN ID DE USUARIO. 
 export const createAppointmentService = async(appointmentData:IAppointmentDto): Promise<Appointment> => {
-    const newAppointment: Appointment = await appointmentModel.create(appointmentData);
-    await appointmentModel.save(newAppointment);
-    const user: User|null = await userModel.findOneBy({id: appointmentData.userId})
-    if (!user) {
-        throw new Error("User not found");
-    }
-    newAppointment.user = user;
-    await appointmentModel.save(newAppointment);
-    return newAppointment;
+  const newAppointment: Appointment = await appointmentModel.create(appointmentData);
+  await appointmentModel.save(newAppointment);
+  const user: User|null = await userModel.findOneBy({id: appointmentData.userId})
+  if (!user) {
+      throw new Error("User not found");
+  }
+  newAppointment.user = user;
+  await appointmentModel.save(newAppointment);
+  return newAppointment;
 };
 
 //Implementar una función que reciba el id de un turno específico y una vez identificado el turno correspondiente, cambiar su estado a “cancelled”.

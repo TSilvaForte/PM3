@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 import styles from './NewAppointment.module.css'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import emailjs from 'emailjs-com'
 
 const validationSchema = Yup.object().shape({
   date: Yup.date()
@@ -23,64 +24,94 @@ const NewAppointment = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-        const { date, hour, minute, description } = values;
-        const formattedMinute = minute.padStart(2, '0');
-        const appointmentData = {
-          date,
-          time: `${hour}:${formattedMinute}`,
-          description,
-          userId: userData.id
-        };
-
-        const formattedDate = new Date(date).toLocaleDateString('en-US', {
-            day: '2-digit',
-            month: 'short',    
-          });
-    
-        Swal.fire({
-          title: 'Confirm Appointment?',
-          text: `You are about to schedule an appointment for ${description} on ${formattedDate} at ${hour}:${formattedMinute} hs.`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            try {
-              const response = await axios.post('http://localhost:3000/appointments/schedule', appointmentData);
-    
-              if (response.status === 201) {
-                Swal.fire({
-                  title: "Success!",
-                  text: "Your appointment has been scheduled",
-                  icon: "success",
-                });
-                resetForm(); 
-                navigate('/appointments');
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Something went wrong!",
-                  footer: '<a href="#">Schedule failed. Please try again</a>',
-                });
-              }
-            } catch (error) {
-              console.log("Server error", error);
+      const { date, hour, minute, description } = values;
+      const formattedMinute = minute.padStart(2, '0');
+      const appointmentData = {
+        date,
+        time: `${hour}:${formattedMinute}`,
+        description,
+        userId: userData.id,
+      };
+  
+      const formattedDate = new Date(date).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'short',
+      });
+  
+      Swal.fire({
+        title: 'Confirm Appointment?',
+        text: `You are about to schedule an appointment for ${description} on ${formattedDate} at ${hour}:${formattedMinute} hs.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await axios.post(
+              'http://localhost:3000/appointments/schedule',
+              appointmentData
+            );
+  
+            if (response.status === 201) {
+              emailjs
+                .send(
+                  'service_ubkthdh',
+                  'template_sl4a1b7',
+                  {
+                    from_name: 'Flotarium Urban Spa',
+                    to_name: userData.name, 
+                    to_email: userData.email, 
+                    service: description, 
+                    date: formattedDate, 
+                    time: `${hour}:${formattedMinute}`, 
+                  },
+                  'F6WMKRNVJy_xsSUKv' // Public Key de EmailJS
+                )
+                .then(
+                  () => {
+                    Swal.fire({
+                      title: 'Success!',
+                      text: 'Your appointment has been scheduled',
+                      icon: 'success',
+                    });
+                    resetForm(); 
+                    navigate('/appointments'); 
+                  },
+                  (emailError) => {
+                    console.error('Email error', emailError);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Email failed',
+                      text: 'Your appointment was scheduled, but the confirmation email failed to send.',
+                    });
+                  }
+                );
+            } else {
               Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
                 footer: '<a href="#">Schedule failed. Please try again</a>',
               });
-            } finally {
-              setSubmitting(false); 
             }
-          } else {
+          } catch (error) {
+            console.error('Server error', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              footer: '<a href="#">Schedule failed. Please try again</a>',
+            });
+          } finally {
             setSubmitting(false); 
           }
-        });
-      };
+        } else {
+          setSubmitting(false); 
+        }
+      });
+    };
+  
 
   return (
     <div className={styles.container}>
