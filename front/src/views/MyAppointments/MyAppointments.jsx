@@ -17,7 +17,8 @@ const MyAppointments = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/users/${userData.id}`);
+            // const response = await axios.get(`http://localhost:3000/users/${userData.id}`);
+            const response = await axios.get(`https://flotariumspa.onrender.com/users/${userData.id}`);
             dispatch(addUserAppointments(response.data.appointments));
         } catch (error) {
             console.error(error);

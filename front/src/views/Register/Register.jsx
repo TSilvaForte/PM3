@@ -36,7 +36,8 @@ const Register = () => {
   const postData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/register",
+        // "http://localhost:3000/users/register",
+        'https://flotariumspa.onrender.com/users/register',
         form
       );
       if (response.status === 201) {

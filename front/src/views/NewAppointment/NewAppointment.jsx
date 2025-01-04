@@ -49,7 +49,8 @@ const NewAppointment = () => {
         if (result.isConfirmed) {
           try {
             const response = await axios.post(
-              'http://localhost:3000/appointments/schedule',
+              // 'http://localhost:3000/appointments/schedule',
+              'https://flotariumspa.onrender.com/appointments/schedule',
               appointmentData
             );
   
